@@ -1,6 +1,14 @@
-{% extends 'menu/base.html' %} {% block content %}
+{% extends 'menu/base.html' %} {% block title %} - Kategori{% if category_name %}:
+{{ category_name }}{% endif %}{% endblock title %}
+{% block content %}
 <div class="container py-3">
   <div class="row">
+    <div class="col">
+      <h1 class="display-1 text-center">{{ category_name }}</h1>
+      <hr class="hr">
+    </div>
+  </div>
+  <div class="row gy-5">
     {% for product in products %}
     <div class="col col-lg-4 col-12 p-2">
       <div
