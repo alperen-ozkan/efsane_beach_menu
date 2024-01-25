@@ -1,8 +1,12 @@
-{% extends 'menu/base.html' %}
+<?php
 
-{% block title %} - İletişim{% endblock title %}
+$title = "İletişim";
+$page = "contact";
 
-{% block content %}
+require_once("./layout/header.php");
+
+?>
+
 <div class="container py-3">
   <div class="row">
     <div class="col">
@@ -40,4 +44,5 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+
+<?php require_once("./layout/footer.php"); ?>
