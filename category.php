@@ -15,21 +15,37 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$category_slug = $conn->real_escape_string($_GET["category"]);
+$check_table_query = "SHOW TABLES LIKE 'categories'";
+$result = $conn->query($check_table_query);
 
-$category_result = $conn->query("SELECT * FROM categories WHERE slag='$category_slug'");
+if ($result->num_rows == 0) {
+  $conn->query(file_get_contents("./sql/create_categories.sql"));
+} else {
+  $result = $conn->query("SELECT * FROM categories");
 
-if ($category_result->num_rows > 0) {
-  $category_row = $category_result->fetch_assoc();
-  $category_id = $category_row["id"];
-  $category_name = $category_row["name"];
-  $title = "Kategori: " . $category_name;
+  $category_slug = $conn->real_escape_string($_GET["category"]);
 
-  $products_result = $conn->query("SELECT * FROM products WHERE category=$category_id");
+  $category_result = $conn->query("SELECT * FROM categories WHERE slag='$category_slug'");
 
-  while ($product_row = $products_result->fetch_assoc()) {
-    $products[] = $product_row;
+  if ($category_result->num_rows > 0) {
+    $category_row = $category_result->fetch_assoc();
+    $category_id = $category_row["id"];
+    $category_name = $category_row["name"];
+    $title = "Kategori: " . $category_name;
+
+    $products_result = $conn->query("SELECT * FROM products WHERE category=$category_id");
+
+    while ($product_row = $products_result->fetch_assoc()) {
+      $products[] = $product_row;
+    }
   }
+}
+
+$check_table_query = "SHOW TABLES LIKE 'products'";
+$result = $conn->query($check_table_query);
+
+if ($result->num_rows == 0) {
+  $conn->query(file_get_contents("./sql/create_products.sql"));
 }
 
 $conn->close();
