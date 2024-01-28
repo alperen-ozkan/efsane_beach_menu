@@ -39,8 +39,8 @@
 }
 
 .content {
-  height: calc(100vh - 58px);
-  height: calc(100dvh - 58px);
+  min-height: calc(100vh - 58px);
+  min-height: calc(100dvh - 58px);
 }
 
 @media screen and (width < 768px) {
